@@ -2,42 +2,53 @@
 
 module testbench;
 
-reg [31:0]var_a;
-reg [31:0]var_b;
-wire [31:0]r_out;
-wire r_carry;
+reg [3:0]var_a;
+reg [3:0]var_b;
+wire [3:0]r_out_par;
+wire [3:0]r_out_posl;
+wire r_carry_par;
+wire r_carry_posl;
 
 //instance of module being studied
-adder adder_inst(
+adder_par adder_pari(
   .a(var_a),
   .b(var_b),
-  .out(r_out),
-  .carry(r_carry)
+  .out(r_out_par),
+  .carry(r_carry_par)
+);
+adder_posl adder_posli(
+  .a(var_a),
+  .b(var_b),
+  .out(r_out_posl),
+  .carry(r_carry_posl)
 );
 
 initial
 begin
   $dumpfile("out.vcd");
   $dumpvars(0,testbench);
-  var_a = 32'h55555555;
-  var_b = 32'h01010101;
-   #10;
-  var_a = 32'h55555555;
-  var_b = 32'hAAAAAAAA;
-   #10;
-  var_a = 32'h55555555;
-  var_b = 32'hABABABAB;
-   #10;
-  var_a = 32'h99999999;
-  var_b = 32'h05050505;
-   #10;
-  var_a = 32'h99999999;
-  var_b = 32'h67676767;
-   #10;
-  var_a = 32'h99999999;
-  var_b = 32'h66666666;
-   #10;
+	
+  var_a = 4'h5;
+  var_b = 4'h0;
+   #30;
+  var_a = 4'h1;
+  var_b = 4'hA;
+   #30;
+  var_a = 4'h5;
+  var_b = 4'hA;
+   #30;
+  var_a = 4'h9;
+  var_b = 4'h4;
+   #30;
+  var_a = 4'h9;
+  var_b = 4'h9;
+   #30;
+  var_a = 4'h9;
+  var_b = 4'h6;
+   #30;
   $finish;
 end
+
+
 
 endmodule
